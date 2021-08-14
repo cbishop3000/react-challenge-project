@@ -78,7 +78,10 @@ router.post('/edit-order', async (req, res) => {
       res.status(400).json({ success: false, error: 'Error in database while updating' });
       return;
     }
-    res.status(200).json({ success: true });
+
+    const orders = await Order.find();
+    res.status(200).json({ success: true, orders });
+    
   } catch(error) {
     res.status(500).json({ success: false, error });
   }
@@ -86,7 +89,6 @@ router.post('/edit-order', async (req, res) => {
 
 router.post('/delete-order', async (req, res) => {
   try {
-    // expects id
     if (!req.body.id) {
       res.status(400).json({ success: false, error: 'No id supplied' });
       return;
@@ -105,7 +107,9 @@ router.post('/delete-order', async (req, res) => {
       return;
     }
 
-    res.status(200).json({ success: true });
+    const orders = await Order.find();
+
+    res.status(200).json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ success: false, error });
   }
